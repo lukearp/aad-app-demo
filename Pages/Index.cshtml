@@ -5,6 +5,40 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p>Your Role is @Model.role</p>
+    @if (Model.role != "")
+    {
+        @if (Model.role.ToLower() == "admin")
+        {
+            <form method="post">
+                <label for="@Model.thisData.record">Record</label>
+                <input type="text" asp-for="@Model.thisData.record" class="form-control">
+                <input type="text" asp-for="@Model.thisData.id" hidden>
+                <input type="text" asp-for="@Model.thisData.date" hidden>
+                <button type="submit">Submit Record</button>
+            </form>
+        }
+        if (Model.role.ToLower() == "admin" || Model.role.ToLower() == "reader")
+        {
+            <table class="table">
+                <thead>
+                    <th>Date</th>
+                    <th>Record</th>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.data)
+                    {
+                        <tr>
+                            <td>@item.date</td>
+                            <td>@item.record</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
+    else
+    {
+        <p>No Role for this App</p>
+    }
 </div>
